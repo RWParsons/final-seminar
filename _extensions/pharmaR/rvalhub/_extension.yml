@@ -6,6 +6,7 @@ contributes:
   formats:
     revealjs:
       # general
+      output-file: "index"
 
       self-contained: true
       theme: [default, custom.scss, custom-light.scss]
