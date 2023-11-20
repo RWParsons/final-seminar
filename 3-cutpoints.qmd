@@ -1,0 +1,7 @@
+# Optimise the cutpoints!
+
+## Section 1
+
+```{r}
+2 + 2
+```

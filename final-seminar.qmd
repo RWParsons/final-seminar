@@ -11,5 +11,12 @@ format: rvalhub-revealjs
 
 {{< include 0-background.qmd >}}
 
-
 {{< include 1-literature-review.qmd >}}
+
+{{< include 2-cpm.qmd >}}
+
+{{< include 3-cutpoints.qmd >}}
+
+{{< include 4-predictNMB.qmd >}}
+
+{{< include 5-conclusions.qmd >}}

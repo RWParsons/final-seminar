@@ -1,8 +1,63 @@
 # Background
 
-## Section 1
+## Why falls?
 
-```{r}
-2 + 2
-```
+![](assets/0-background/fall1.gif)
 
+## Why falls?
+
+![](assets/0-background/boring.png)
+
+## Why falls?
+
+:::{.incremental}
+
+- Falls are bad
+  - length of stay increased by 8 days
+  - 1 in 3 fallers injured
+
+- Falls have a huge economic burden
+  - most prevalent adverse event in hospitals (3.6%)
+  - $6700 in additional healthcare costs
+
+:::
+
+## Why predict them?
+
+![](assets/0-background/resource-constrained.gif)
+
+## Clinical Decision Support Systems
+
+:::columns
+
+::: {.column width="40%"}
+![](assets/0-background/cdss-diagram.png){.absolute height="600"}
+:::
+
+
+::: {.column width="60%"}
+
+- Relies on clinical prediction model.
+- Clinical context is important (**spoiler**)
+
+:::
+
+:::
+
+
+## This PhD
+
+### Aims/Studies
+
+:::{.incremental}
+
+1. Review existing clinical prediction models for inpatient falls.
+2. Develop a prediction model for inpatient falls.
+3. Develop a cutpoint selection method to align CDSS with value-based care.
+4. Develop software to determine when/where prediction models are most worthwhile.
+
+:::
+
+## This PhD
+
+![](assets/0-background/the-figure.png){.absolute height="600"}
