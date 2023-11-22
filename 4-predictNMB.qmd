@@ -1,8 +1,224 @@
-# Background
+# predictNMB <img src='assets/4-predictNMB/hex.png' align="right" height="160" />
 
-## Section 1
+## 
+
+![](assets/4-predictNMB/the-fig.png){.absolute height="600"}
+
+##
+
+
+![](assets/4-predictNMB/ropensci-page.png){.absolute height="400"}
+
+##
+
+
+![](assets/4-predictNMB/joss.png){.absolute height="400"}
+
+
+## What is a CDSS
+
+![](assets/4-predictNMB/cdss-diagram.png){.absolute height="600"}
+
+## Why we should we evaluate in terms of costs {.smaller}
+
+![](assets/4-predictNMB/continuum-0.png){.absolute right="50" top="150"}
+
+## Why we should we evaluate in terms of costs {.smaller}
+
+
+![](assets/4-predictNMB/continuum-1.png){.absolute right="50" top="150"}
+
+## Why we should we evaluate in terms of costs {.smaller}
+
+
+![](assets/4-predictNMB/continuum-2.png){.absolute right="50" top="150"}
+
+## Why we should we evaluate in terms of costs {.smaller}
+
+
+![](assets/4-predictNMB/continuum-3.png){.absolute right="50" top="150"}
+
+
+## Why we should use `{predictNMB}` {.smaller}
+
+`{predictNMB}`
+
+-   User provides inputs for setting & intervention (w/ uncertainty)
+-   Simulates & evaluates clinical prediction models within CDSS
+-   Estimates patient benefit and healthcare costs
+
+
+# DEMO
+
+##
 
 ```{r}
-2 + 2
+#| echo: true
+# install.packages("predictNMB")
+library(predictNMB)
+library(ggplot2)
+library(parallel)
+```
+
+
+## Example problem and inputs required {.smaller}
+
+::: {style="font-size: 70%;"}
+
+- Falls leads to about 0.04 lost Quality-Adjusted Life Years (QALYs)
+  (Latimer et al. 2013) and has an approximate beta distribution of:
+  $$\mathrm{B}(\alpha = 2.95, \beta = 32.25)$$  
+
+- There are also additional healthcare costs of about \$6669 (Morello et
+  al. 2015) and follows an approximate gamma distribution of:
+  $$\Gamma (\alpha = 22.05, \beta = 0.0033) $$
+
+- Fall prevention education…
+
+  - has a fixed, known cost of \$77.3 per patient (Hill et al. 2015)
+  - reduces probability of fall by 45% (Haines et al. 2011) - the log
+    hazard ratio follows an approximate normal distribution of:
+    $$\mathcal{N}(\mu = -0.844, \sigma = 0.304) $$
+    
+:::
+
+## Example problem and inputs required {.smaller}
+
+- The willingness-to-pay (WTP) for us is \$28033 AUD
+
+- Current practice: Everyone gets the fall prevention intervention
+  (treat-all approach).
+
+::: custom-small
+
+| Input                     | Distribution                                         | R code                                         |
+|---------------------------|------------------------------------------------------|------------------------------------------------|
+| QALYs lost                | $$\mathrm{B}(\alpha = 2.95, \beta = 32.25)$$         | `rbeta(n = 1, shape1 = 2.95, shape2 = 32.25)`   |
+| Healthcare costs          | $$\Gamma (\alpha = 22.05, \beta = 0.0033) $$         | `rgamma(n = 1, shape = 22.05, rate = 0.0033)`  |
+| Treatment effect (hazard) | $$\exp(\mathcal{N}(\mu = -0.844, \sigma = 0.304)) $$ | `exp(rnorm(n = 1, mean = -0.844, sd = 0.304))` |
+| Treatment cost            | \$77.30                                              | \-                                             |
+| WTP                       | \$28033                                              | \-                                             |
+
+:::
+
+::: footer
+Calculations and code for using details in paper cited papers above is
+described in (Parsons et al. 2023).
+:::
+
+## Question
+
+- At what AUC should we think our model is worth implementing?
+
+
+## Making our samplers {.smaller}
+
+```{r}
+#| echo: true
+validation_sampler <- get_nmb_sampler(
+  outcome_cost = function()  rgamma(1, shape = 22.05, rate = 0.0033),
+  wtp = 28033,
+  qalys_lost = function() rbeta(1, shape1 = 2.95, shape2 = 32.25),
+  high_risk_group_treatment_effect = function() exp(rnorm(1, mean = -0.844, sd = 0.304)),
+  high_risk_group_treatment_cost = 77.3,
+  low_risk_group_treatment_effect = 0,
+  low_risk_group_treatment_cost = 0,
+  use_expected_values = FALSE
+)
+```
+
+## Making our samplers {.smaller}
+
+```{r}
+#| echo: true
+validation_sampler <- get_nmb_sampler(
+  outcome_cost = function()  rgamma(1, shape = 22.05, rate = 0.0033),
+  wtp = 28033,
+  qalys_lost = function() rbeta(1, shape1 = 2.95, shape2 = 32.25),
+  high_risk_group_treatment_effect = function() exp(rnorm(1, mean = -0.844, sd = 0.304)),
+  high_risk_group_treatment_cost = 77.3,
+  low_risk_group_treatment_effect = 0,
+  low_risk_group_treatment_cost = 0,
+  use_expected_values = FALSE
+)
+
+
+training_sampler <- get_nmb_sampler(
+  outcome_cost = function()  rgamma(1, shape = 22.05, rate = 0.0033),
+  wtp = 28033,
+  qalys_lost = function() rbeta(1, shape1 = 2.95, shape2 = 32.25),
+  high_risk_group_treatment_effect = function() exp(rnorm(1, mean = -0.844, sd = 0.304)),
+  high_risk_group_treatment_cost = 77.3,
+  low_risk_group_treatment_effect = 0,
+  low_risk_group_treatment_cost = 0,
+  use_expected_values = TRUE
+)
+```
+
+
+## Primary analyses
+
+### Running our simulation (primary use-case)
+
+``` r
+cl <- makeCluster(detectCores() - 1)
+
+screen_simulation_inputs(
+  n_sims = 500,
+  n_valid = 10000,
+  sim_auc = seq(0.6,0.95, 0.05),
+  event_rate = 0.03,
+  fx_nmb_training = training_sampler,
+  fx_nmb_evaluation = validation_sampler,
+  cutpoint_methods = c("all", "none", "youden", "value_optimising"),
+  show_progress = TRUE,
+  cl = cl
+)
+```
+
+```{r}
+if(!"screen-sim-1.rds" %in% list.files("assets/4-predictNMB/data")) {
+  cl <- makeCluster(detectCores() - 1)
+  
+  screen_auc <- screen_simulation_inputs(
+    n_sims = 2500,
+    n_valid = 10000,
+    sim_auc = seq(0.6,0.95, 0.05),
+    event_rate = 0.03,
+    fx_nmb_training = training_sampler,
+    fx_nmb_evaluation = validation_sampler,
+    cutpoint_methods = c("all", "none", "youden", "value_optimising"),
+    show_progress = TRUE,
+    cl = cl
+  )
+  
+  saveRDS(screen_auc, file.path("assets/4-predictNMB/data", "screen-sim-1.rds"))
+} else {
+  screen_auc <- readRDS(file.path("assets/4-predictNMB/data", "screen-sim-1.rds"))
+}
+```
+## Screen AUCs
+
+```{r}
+#| echo: true
+#| fig-align: center
+autoplot(screen_auc)
+```
+
+
+## Screen intervention costs
+
+```{r}
+cost_screen <- readRDS(gzcon(url("https://github.com/RWParsons/rmed2023-predictNMB/raw/main/demo-code/saved-sims/cost_screen.rds")))
+```
+
+
+```{r}
+#| echo: true
+#| fig-align: center
+
+# AUC = 0.8
+autoplot(cost_screen) +
+  scale_x_discrete(labels = function(x) gsub("[A-Z]\\-", "$", x))
 ```
 
