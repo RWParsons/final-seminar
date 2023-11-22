@@ -1,8 +1,45 @@
-# Study 1 - Scoping review
+# Review the existing models!
 
-## Section 1
+## 
 
-```{r}
-3+3
-```
+![](assets/1-lit-review/the-fig.png){.absolute height="600"}
+
+
+##
+
+
+![](assets/1-lit-review/gerontology.png){.absolute height="200" bottom="0"}
+
+
+![](assets/1-lit-review/bmj-open.png){.absolute height="200" top="0"}
+
+
+## Objectives
+
+- Summarise existing data and methods used to develop inpatient falls prediction models
+  - Sources of data
+  - Model development algorithms
+  - Evaluation methods
+  - Reporting quality
+
+## Included studies
+
+<!-- # add prisma diagram -->
+
+## The typical
+
+<!-- logistic regression/tree based model predicting 1+ falls in admission using data at admission -->
+
+## The less typical
+
+<!-- - predicting next day falls -->
+<!-- - using 2x2 matrix to select cutpoint -->
+<!-- rare use of external validation -->
+
+# Gaps
+
+
+## How to make a model differently
+
+## better ways to select a cutpoint?
 

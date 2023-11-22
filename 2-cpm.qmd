@@ -1,7 +1,5 @@
 # Predict the falls!
 
-## Section 1
+## 
 
-```{r}
-2 + 2
-```
+![](assets/2-falls-cpm/the-fig.png){.absolute height="600"}
