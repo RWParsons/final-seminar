@@ -9,6 +9,8 @@ author:
 format: rvalhub-revealjs
 ---
 
+## {background-image="assets/acknowledgement.jpg"}
+
 {{< include 0-background.qmd >}}
 
 {{< include 1-literature-review.qmd >}}

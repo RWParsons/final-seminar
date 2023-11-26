@@ -4,4 +4,4 @@
 
 ![](assets/the-figure/fig-ch5){.absolute height="600"}
 
-## What is a cutpoint?
+## Pretty much use IM-22 slides here

@@ -1,7 +1,23 @@
-# Conclude the talk!
+# Conclusions
 
-## Section 1
+##
 
-```{r}
-2 + 2
-```
+![](assets/5-conclusions/the-fig.png){.absolute height="600"}
+
+## Significance
+
+::: {.incremental}
+
+- Reviewed falls prediction model development literature
+- Developed a new falls prediction model using new (to falls) methods and best practice
+- Developed a new cutpoint selection method to align CDSS with value-based care
+- Developed software to direct prediction model research and implementation efforts towards those that are likely to be worthwhile
+
+:::
+
+## Future Research
+
+- What are the estimated benefits of using a time-to-event model versus the current prediction models?
+- How well can neural networks which model survival outcomes perform compared to the proposed Cox model?
+
+## Thank you slide
