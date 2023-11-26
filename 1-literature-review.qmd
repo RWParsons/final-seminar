@@ -24,22 +24,68 @@
 
 ## Included studies
 
-<!-- # add prisma diagram -->
+![](assets/1-lit-review/fig-1.png){.absolute height="600" top="75"}
 
-## The typical
+## The typical study
 
-<!-- logistic regression/tree based model predicting 1+ falls in admission using data at admission -->
+Data:
 
-## The less typical
+::: {.incremental}
 
-<!-- - predicting next day falls -->
-<!-- - using 2x2 matrix to select cutpoint -->
-<!-- rare use of external validation -->
+- Available at admission
+- Collected via survey/questionnaire
+- Variables included previous falls, age, sex, mental state, or physical function assessments
+- Case-control sampling to balance fallers and non-fallers
+
+:::
+
+## The typical study
+
+Modelling:
+
+::: {.incremental}
+- Logistic regression
+- Outcome: one or more falls during admission
+- Predictions made at or soon after admission
+
+:::
+
+## The typical study
+
+::: {.incremental}
+
+Validation methods:
+
+- Bad
+
+Reporting: 
+
+- Worse
+
+:::
+
+## Sample sizes
+
+![](assets/1-lit-review/fig-2-sample-sizes.jpeg){.absolute height="450" top="75"}
+
+## Reporting
+
+![](assets/1-lit-review/fig-3-tripod.jpeg){.absolute height="600" top="75"}
+
+
+## The not-so-typical
+
+- Two studies predicted falls within the next 24-hour period and made new predictions each day of admission^1^
+- Considered relative cost of false negatives to false positives to select prediction model cutpoint^2^
+
+::: footer
+^1^ Yokota (2016) and Yokota (2017)<br>
+^2^ Marschollek (2012)
+:::
+
 
 # Gaps
 
-
-## How to make a model differently
-
-## better ways to select a cutpoint?
-
+- Almost no use of time-to-event models to estimate falls risk
+- Almost no models updated throughout admission or whenever new data is available
+- Relatively few studies relied solely on routine, electronic data
