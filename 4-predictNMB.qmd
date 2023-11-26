@@ -21,20 +21,6 @@
 
 ## Why we should we evaluate in terms of costs {.smaller}
 
-![](assets/4-predictNMB/continuum-0.png){.absolute right="50" top="150"}
-
-## Why we should we evaluate in terms of costs {.smaller}
-
-
-![](assets/4-predictNMB/continuum-1.png){.absolute right="50" top="150"}
-
-## Why we should we evaluate in terms of costs {.smaller}
-
-
-![](assets/4-predictNMB/continuum-2.png){.absolute right="50" top="150"}
-
-## Why we should we evaluate in terms of costs {.smaller}
-
 
 ![](assets/4-predictNMB/continuum-3.png){.absolute right="50" top="150"}
 

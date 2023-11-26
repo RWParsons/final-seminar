@@ -22,6 +22,29 @@
 
 :::
 
+
+# Why should we predict them??
+
+
+## Why should we predict them?
+
+![](assets/0-background/continuum-0.png){.absolute right="50" top="150"}
+
+## Why should we predict them?
+
+![](assets/0-background/continuum-1.png){.absolute right="50" top="150"}
+
+
+## Why should we predict them?
+
+
+![](assets/0-background/continuum-2.png){.absolute right="50" top="150"}
+
+
+## Why should we predict them?
+
+![](assets/0-background/continuum-3.png){.absolute right="50" top="150"}
+
 ## Why predict them?
 
 ![](assets/0-background/resource-constrained.gif)
@@ -29,19 +52,16 @@
 ## Clinical Decision Support Systems
 
 :::columns
-
 ::: {.column width="40%"}
 ![](assets/0-background/cdss-diagram.png){.absolute height="600"}
 :::
 
-
 ::: {.column width="60%"}
 
-- Relies on clinical prediction model.
-- Clinical context is important (**spoiler**)
+- **IN:** Patient data 
+- **OUT:** Alert/decision/information
 
 :::
-
 :::
 
 
