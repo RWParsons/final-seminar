@@ -3,3 +3,72 @@
 ## 
 
 ![](assets/2-falls-cpm/the-fig.png){.absolute height="600"}
+
+## Objective:
+
+- Develop and validate a prediction model for inpatient falls
+
+
+## Methods:
+
+- Time-to-event (Cox regression) model with updates throughout admission
+- Routine Electronic Medical Records data only
+- Good model assessment methods
+- Good reporting
+- Predictions through to first 14 days of admission
+
+## Data
+
+
+```{r}
+library(tidyverse)
+library(flextable)
+tbl <- readRDS("assets/2-falls-cpm/tbl-summary.rds")
+
+tbl
+```
+
+
+## Data
+
+```{r}
+bg(tbl, i = 1, j = 2:8, bg = "yellow", part = "body")
+```
+
+## Data
+
+```{r}
+bg(tbl, i = 4, bg = "yellow", part = "body")
+```
+
+## Data
+
+```{r}
+bg(tbl, i = 7, bg = "yellow", part = "body")
+```
+
+
+## Cross-validation
+
+```{r}
+tbl <- readRDS("assets/2-falls-cpm/tbl-power-by-fold.rds")
+
+tbl
+```
+
+
+## Discrimination
+
+![](assets/2-falls-cpm/fig_discrimination.jpeg)
+
+
+## Calibration
+
+![](assets/2-falls-cpm/fig_calibration.jpeg){.absolute height="600"}
+
+## Summary
+
+- Highly discriminant inpatient falls prediction model
+- Calibration not ideal but may be be best suited to assign treatment rather than provide risk estimates
+- First use of time-to-event model in inpatient falls prediction with time-varying covariates
+- One of the largest datasets and first use of internal-external cross-validation
