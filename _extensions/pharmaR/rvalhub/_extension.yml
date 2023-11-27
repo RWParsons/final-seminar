@@ -21,6 +21,8 @@ contributes:
       # assets
       logo: assets/aushsi-logo.svg
       background-image: assets/swirling-margins.svg
+      
+      slide-number: true
 
     revealjs+light:
       # general

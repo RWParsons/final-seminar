@@ -8,16 +8,21 @@
 
 ::: {.incremental}
 
-- Reviewed falls prediction model development literature
-- Developed a new falls prediction model using new (to falls) methods and best practice
-- Developed a new cutpoint selection method to align CDSS with value-based care
-- Developed software to direct prediction model research and implementation efforts towards those that are likely to be worthwhile
+- Highlighted problems and gaps with existing clinical prediction models for inpatient falls
+- Developed a new model addressing gaps identified
+- Provided a new cutpoint selection method for wider range of uses
+- Released new software which can be used to hone prediction development and implementation efforts
 
 :::
 
+## Limitations
+
+- No estimate or evaluation of whether proposed model will help patients or resource allocation
+- All CDSS rely on availability of good interventions
+
 ## Future Research
 
-- What are the estimated benefits of using a time-to-event model versus the current prediction models?
+- What are the estimated patient and resource allocation benefits of using the proposed model?
 - How well can neural networks which model survival outcomes perform compared to the proposed Cox model?
 
 ## Thank you slide

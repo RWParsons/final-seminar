@@ -22,6 +22,10 @@
 
 :::
 
+## Why falls?
+
+A bed occupied by a faller is a bed unavailable for another patient in need
+
 
 # Why should we predict them??
 

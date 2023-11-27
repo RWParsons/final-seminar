@@ -8,7 +8,7 @@
 ##
 
 
-![](assets/1-lit-review/gerontology.png){.absolute height="200" bottom="0"}
+![](assets/1-lit-review/gerontology.png){.absolute height="400" bottom="0"}
 
 
 ![](assets/1-lit-review/bmj-open.png){.absolute height="200" top="0"}
