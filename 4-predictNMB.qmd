@@ -7,12 +7,9 @@
 ##
 
 
-![](assets/4-predictNMB/ropensci-page.png){.absolute height="400"}
+![](assets/4-predictNMB/ropensci-page.png){.absolute height="300"}
 
-##
-
-
-![](assets/4-predictNMB/joss.png){.absolute height="400"}
+![](assets/4-predictNMB/joss.png){.absolute height="300" bottom="0"}
 
 
 ## What is a CDSS
@@ -27,8 +24,6 @@
 
 ## Why we should use `{predictNMB}` {.smaller}
 
-`{predictNMB}`
-
 -   User provides inputs for setting & intervention (w/ uncertainty)
 -   Simulates & evaluates clinical prediction models within CDSS
 -   Estimates patient benefit and healthcare costs
@@ -42,7 +37,6 @@
 #| echo: true
 # install.packages("predictNMB")
 library(predictNMB)
-library(ggplot2)
 library(parallel)
 ```
 
@@ -96,22 +90,6 @@ described in (Parsons et al. 2023).
 
 - At what AUC should we think our model is worth implementing?
 
-
-## Making our samplers {.smaller}
-
-```{r}
-#| echo: true
-validation_sampler <- get_nmb_sampler(
-  outcome_cost = function()  rgamma(1, shape = 22.05, rate = 0.0033),
-  wtp = 28033,
-  qalys_lost = function() rbeta(1, shape1 = 2.95, shape2 = 32.25),
-  high_risk_group_treatment_effect = function() exp(rnorm(1, mean = -0.844, sd = 0.304)),
-  high_risk_group_treatment_cost = 77.3,
-  low_risk_group_treatment_effect = 0,
-  low_risk_group_treatment_cost = 0,
-  use_expected_values = FALSE
-)
-```
 
 ## Making our samplers {.smaller}
 
@@ -188,14 +166,32 @@ if(!"screen-sim-1.rds" %in% list.files("assets/4-predictNMB/data")) {
 ```{r}
 #| echo: true
 #| fig-align: center
-autoplot(screen_auc)
+autoplot(screen_auc, dodge_width = 0.02, plot_range = F)
 ```
 
 
-## Screen intervention costs
+## Screen event rate
 
 ```{r}
-cost_screen <- readRDS(gzcon(url("https://github.com/RWParsons/rmed2023-predictNMB/raw/main/demo-code/saved-sims/cost_screen.rds")))
+if(!"screen-sim-2.rds" %in% list.files("assets/4-predictNMB/data")) {
+  cl <- makeCluster(detectCores() - 1)
+  
+  screen_event_rate <- screen_simulation_inputs(
+    n_sims = 2500,
+    n_valid = 10000,
+    sim_auc = 0.8,
+    event_rate = c(0.01, 0.03, 0.05, 0.1, 0.2),
+    fx_nmb_training = training_sampler,
+    fx_nmb_evaluation = validation_sampler,
+    cutpoint_methods = c("all", "none", "youden", "value_optimising"),
+    show_progress = TRUE,
+    cl = cl
+  )
+  
+  saveRDS(screen_auc, file.path("assets/4-predictNMB/data", "screen-sim-2.rds"))
+} else {
+  screen_event_rate <- readRDS(file.path("assets/4-predictNMB/data", "screen-sim-2.rds"))
+}
 ```
 
 
@@ -204,7 +200,22 @@ cost_screen <- readRDS(gzcon(url("https://github.com/RWParsons/rmed2023-predictN
 #| fig-align: center
 
 # AUC = 0.8
-autoplot(cost_screen) +
-  scale_x_discrete(labels = function(x) gsub("[A-Z]\\-", "$", x))
+autoplot(screen_event_rate, dodge_width = 0.01, plot_range = F)
 ```
+## Create cost-effectiveness plot
+
+```{r}
+#| echo: true
+#| fig-align: center
+
+# AUC = 0.8
+# Event rate = 0.03
+ce_plot(
+  screen_event_rate$simulations[[2]], ref_col = "all", add_prop_ce = TRUE
+)
+```
+## Summary
+
+- New software that can be used to evaluate a hypothetical prediction model
+- May be used to guide research efforts towards models which are most likely to be clinically useful
 
