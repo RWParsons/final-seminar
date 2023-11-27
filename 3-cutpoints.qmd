@@ -2,6 +2,271 @@
 
 ## 
 
-![](assets/the-figure/fig-ch5){.absolute height="600"}
+![](assets/3-cutpoints/the-fig.png){.absolute height="600"}
 
-## Pretty much use IM-22 slides here
+
+## 
+
+![](assets/3-cutpoints/jamia.PNG){fig-align="center" height="350"}
+
+
+## 
+
+![](assets/3-cutpoints/p-given-data.png){fig-align="center" height="350"}
+
+## 
+
+![](assets/common/cdss-diagram.png){.absolute height="600"}
+
+## 
+
+![](assets/3-cutpoints/cdss-diagram-reco.png){.absolute height="600"}
+
+:::columns
+::: {.column width="40%"}
+
+:::
+
+::: {.column width="60%"}
+
+::: {.incremental}
+How to inform the user?
+:::
+>- Probability of fall within ...?
+>- High risk vs low risk?
+
+:::
+:::
+
+
+## What is a cutpoint?
+
+![](assets/3-cutpoints/treatment-options.png){fig-align="center" height="600"}
+
+## What is a cutpoint?
+
+![](assets/3-cutpoints/sand-1.jpg){fig-align="center" height="323"}
+
+## What is a cutpoint?
+
+![](assets/3-cutpoints/sand-2.png){fig-align="center" height="400"}
+
+## What is a cutpoint?
+
+![](assets/3-cutpoints/sand-3.png){fig-align="center" height="400"}
+
+# [DEMO](https://aushsi.shinyapps.io/cost-effective-cpms-app/)
+
+## Cutpoint selection methods
+
+All maximise a performance based metric (not outcome)^1^
+
+- Youden index
+
+- Sens-Spec product
+
+- Index of Union
+
+- The Closest to (0, 1) Criteria
+
+- Cost-minimising
+
+<br>
+
+>- Only the "Cost-minimising" considers anything beyond the model itself (costs, patient outcomes, interventions)
+
+::: footer
+^1^ Unal (2017)
+:::
+
+
+
+## Objectives
+
+
+- Integrate information of patient outcomes and treatment costs into cutpoint selection
+
+>- Evaluate how it compares to other cutpoint selection methods using a simulation study
+
+
+## Evaluation {.build}
+
+Net Monetary Benefit (NMB) is calculated separately for each possible classification.
+
+
+::: custom-xsmall
+```{r, echo=F}
+library(tidyverse)
+library(flextable)
+library(kableExtra)
+data.frame(
+  row.names = c("Actually Positive", "Actually Negative"),
+  P_Positive = c("TRUE POSITIVE (TP)", "FALSE POSITIVE (FP)"),
+  P_Negative = c("FALSE NEGATIVE (FN)", "TRUE NEGATIVE (TN)")
+) |>
+  rename("Predicted Positive" = P_Positive,
+         "Predicted Negative" = P_Negative) |>
+  kable("markdown") |>
+  kable_styling(full_width=FALSE) |>
+  column_spec(1, bold=T)
+```
+:::
+<br>
+
+::: custom-xsmall
+```{r, echo=F}
+data.frame(
+  row.names = c("Actually Positive", "Actually Negative"),
+  P_Positive = c(
+    "$NMB = COST_{outcome}\\times(1-EFFECT_{treatment}) + COST_{treatment}$",
+    "$NMB = COST_{treatment}$"
+  ),
+  P_Negative = c(
+    "$NMB = COST_{outcome}$",
+    "$NMB = 0$"
+  )
+) |>
+  rename("Predicted Positive" = P_Positive,
+         "Predicted Negative" = P_Negative) |>
+  kable(format = "markdown") |>
+  kable_styling(full_width=FALSE) |>
+  column_spec(1, bold=T)
+```
+:::
+
+
+## Cost-effective cutpoint 
+
+::: {.incremental}
+
+The `{cutpointr}` R package by Christian Thiele includes almost all the cutpoint selection methods and also allows you to pass custom metrics that aren't already built in
+
+Applied a custom metric and `{cutpointr}` to maximise NMB: 
+
+$$
+\small
+CE(c) = n_{TP} \times NMB_{TP} + n_{FP} \times NMB_{FP} \\ + n_{TN} \times NMB_{TN} + n_{FN} \times NMB_{FN}
+$$
+:::
+
+
+## Cost-effective cutpoint {.build}
+
+$$
+\small
+CE(c) = n_{TP} \times NMB_{TP} + n_{FP} \times NMB_{FP} \\ + n_{TN} \times NMB_{TN} + n_{FN} \times NMB_{FN}
+$$
+
+::: custom-xsmall
+
+```{r, echo=F}
+data.frame(
+  row.names = c("Actually Positive", "Actually Negative"),
+  P_Positive = c(
+    "$NMB_{TP} = COST_{outcome}\\times(1-EFFECT_{treatment}) + COST_{treatment}$", 
+    "$NMB_{FP} = COST_{treatment}$"
+  ), 
+  P_Negative = c(
+    "$NMB_{FN} = COST_{outcome}$",
+    "$NMB_{TN} = 0$"
+  )
+) |>
+  rename("Predicted Positive" = P_Positive,
+         "Predicted Negative" = P_Negative) |>
+  kbl(format="markdown") |>
+  kable_styling(font_size=7, full_width=FALSE, latex_options = c('hold_position')) |>
+  column_spec(1, bold=T)
+
+```
+
+<br>
+
+
+```{r, echo=F}
+data.frame(
+  row.names = c("Actually Positive", "Actually Negative"),
+  P_Positive = c("TRUE POSITIVE ($n_{TP}$)", "FALSE POSITIVE ($n_{FP}$)"), 
+  P_Negative = c("FALSE NEGATIVE ($n_{FN}$)", "TRUE NEGATIVE ($n_{TN}$)")
+) |>
+  rename("Predicted Positive" = P_Positive,
+         "Predicted Negative" = P_Negative) |>
+  kable(format="markdown") |>
+  kable_styling(full_width=FALSE) |>
+  column_spec(1, bold=T)
+```
+:::
+
+
+## Simulation
+
+::: {style="font-size: 70%;"}
+
+- Falls leads to about 0.04 lost Quality-Adjusted Life Years (QALYs)
+  (Latimer et al. 2013) and has an approximate beta distribution of:
+  $$\mathrm{B}(\alpha = 2.95, \beta = 32.25)$$  
+
+- There are also additional healthcare costs of about \$6669 (Morello et
+  al. 2015) and follows an approximate gamma distribution of:
+  $$\Gamma (\alpha = 22.05, \beta = 0.0033) $$
+
+- Fall prevention education…
+
+  - has a fixed, known cost of \$77.3 per patient (Hill et al. 2015)
+  - reduces probability of fall by 45% (Haines et al. 2011) - the log
+    hazard ratio follows an approximate normal distribution of:
+    $$\mathcal{N}(\mu = -0.844, \sigma = 0.304) $$
+    
+:::
+
+## Evaluation
+
+- Simulate datasets and fitting of model
+- Evaluate model decisions in terms of NMB for each cutpoint method
+
+
+... repeat
+
+## Results
+
+![](assets/3-cutpoints/figure-1-primary_results.jpeg){fig-align="center" height="600"}
+
+## Results
+
+![](assets/3-cutpoints/figure-2-example-cutpoint-figure.jpeg){fig-align="center" height="400"}
+## Results 
+
+![](assets/3-cutpoints/figure-3-calibration-plots.jpeg){fig-align="center" height="400"}
+
+
+## Summary
+
+- Proposed value-optimising cutpoint can incorporate clinical context to select cutpoint that maximises the Net Monetary Benefit
+- Implications for wider range of decision support systems
+- Similar to cost-minimising
+- Robust to poor model calibration
+
+
+## More results
+
+:::columns
+::: {.column width="40%"}
+![](assets/3-cutpoints/figure-s2-falls_simulations_inb.jpeg){height="400"}
+:::
+
+::: {.column width="60%"}
+
+:::
+:::
+
+## More results
+
+:::columns
+::: {.column width="40%"}
+![](assets/3-cutpoints/figure-s2-falls_simulations_inb.jpeg){height="400"}
+:::
+
+::: {.column width="60%"}
+![](assets/3-cutpoints/thinking.gif){height="400"}
+:::
+:::
+
