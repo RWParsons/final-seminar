@@ -59,8 +59,24 @@ tbl
 
 ## Discrimination
 
+![](assets/2-falls-cpm/discrimination-b.png)
+
+## Discrimination
+
+![](assets/2-falls-cpm/discrimination-a.png)
+
+## Discrimination
+
+![](assets/2-falls-cpm/discrimination-top-row.png)
+
+## Discrimination
+
 ![](assets/2-falls-cpm/fig_discrimination.jpeg)
 
+
+## Calibration
+
+![](assets/2-falls-cpm/calibration-b.png)
 
 ## Calibration
 
@@ -69,6 +85,10 @@ tbl
 ## Summary
 
 - Highly discriminant inpatient falls prediction model
-- Calibration not ideal but may be be best suited to assign treatment rather than provide risk estimates
+- Calibration not ideal, suggesting the model may be better at providing recommendations than estimated risk of falls
 - First use of time-to-event model in inpatient falls prediction with time-varying covariates
 - One of the largest datasets and first use of internal-external cross-validation
+
+##
+
+![](assets/2-falls-cpm/hopefully.PNG){fig-align="center" height="600"}
