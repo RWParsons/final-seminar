@@ -2,11 +2,12 @@
 
 ## Why falls?
 
-![](assets/0-background/fall1.gif)
+![](assets/0-background/fall1.gif){fig-align="center"}
+
 
 ## Why falls?
 
-![](assets/0-background/boring.png)
+![](assets/0-background/boring.png){fig-align="center"}
 
 ## Why falls?
 
@@ -21,11 +22,6 @@
   - $6700 in additional healthcare costs
 
 :::
-
-## Why falls?
-
-A bed occupied by a faller is a bed unavailable for another patient in need
-
 
 # Why should we predict them??
 
@@ -51,7 +47,11 @@ A bed occupied by a faller is a bed unavailable for another patient in need
 
 ## Why predict them?
 
-![](assets/0-background/resource-constrained.gif)
+![](assets/0-background/resource-constrained.gif){fig-align="center"}
+
+## Why predict them?
+
+![](assets/0-background/hospital-bed.jpg){fig-align="center"}
 
 ## Clinical Decision Support Systems
 
@@ -75,13 +75,13 @@ A bed occupied by a faller is a bed unavailable for another patient in need
 
 :::{.incremental}
 
-1. Review existing clinical prediction models for inpatient falls.
-2. Develop a prediction model for inpatient falls.
-3. Develop a cutpoint selection method to align CDSS with value-based care.
-4. Develop software to determine when/where prediction models are most worthwhile.
+1. Review existing clinical prediction models for inpatient falls
+2. Develop a prediction model for inpatient falls
+3. Develop a cutpoint selection method to align CDSS with value-based care
+4. Develop software to determine when/where prediction models are most worthwhile
 
 :::
 
 ## This PhD
 
-![](assets/0-background/the-figure.png){.absolute height="600"}
+![](assets/0-background/the-figure.png){fig-align="center" height="600"}

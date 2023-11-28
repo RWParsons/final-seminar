@@ -2,21 +2,20 @@
 
 ## 
 
-![](assets/1-lit-review/the-fig.png){.absolute height="600"}
+![](assets/1-lit-review/the-fig.png){fig-align="center" height="600"}
 
 
 ##
 
+![](assets/1-lit-review/bmj-open.png){.absolute height="200" top="0"}
 
 ![](assets/1-lit-review/gerontology.png){.absolute height="400" bottom="0"}
 
 
-![](assets/1-lit-review/bmj-open.png){.absolute height="200" top="0"}
-
-
 ## Objectives
 
-- Summarise existing data and methods used to develop inpatient falls prediction models
+Summarise existing data and methods used to develop inpatient falls prediction models:
+
   - Sources of data
   - Model development algorithms
   - Evaluation methods
@@ -24,7 +23,7 @@
 
 ## Included studies
 
-![](assets/1-lit-review/fig-1.png){.absolute height="600" top="75"}
+![](assets/1-lit-review/fig-1.png){fig-align="center" height="600"}
 
 ## The typical study
 
@@ -45,8 +44,8 @@ Modelling:
 
 ::: {.incremental}
 - Logistic regression
-- Outcome: one or more falls during admission
 - Predictions made at or soon after admission
+- Outcome: one or more falls during admission
 
 :::
 
@@ -66,11 +65,11 @@ Reporting:
 
 ## Sample sizes
 
-![](assets/1-lit-review/fig-2-sample-sizes.jpeg){.absolute height="450" top="75"}
+![](assets/1-lit-review/fig-2-sample-sizes.jpeg){fig-align="center" height="450"}
 
 ## Reporting
 
-![](assets/1-lit-review/fig-3-tripod.jpeg){.absolute height="600" top="75"}
+![](assets/1-lit-review/fig-3-tripod.jpeg){fig-align="center" height="450"}
 
 
 ## The not-so-typical
@@ -84,7 +83,7 @@ Reporting:
 :::
 
 
-# Gaps
+## Gaps
 
 - Almost no use of time-to-event models to estimate falls risk
 - Almost no models updated throughout admission or whenever new data is available

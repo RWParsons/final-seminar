@@ -8,17 +8,22 @@
 
 - Develop and validate a prediction model for inpatient falls
 
-
 ## Methods:
 
+::: {.incremental}
 - Time-to-event (Cox regression) model with updates throughout admission
 - Routine Electronic Medical Records data only
 - Good model assessment methods
 - Good reporting
 - Predictions through to first 14 days of admission
+:::
+
+## Advantages of Cox model
+
+- Risk estimate is not influenced by anticipated length of stay
+- Updating predictions as data is available
 
 ## Data
-
 
 ```{r}
 library(tidyverse)
@@ -38,49 +43,42 @@ bg(tbl, i = 1, j = 2:8, bg = "yellow", part = "body")
 ## Data
 
 ```{r}
-bg(tbl, i = 4, bg = "yellow", part = "body")
+bg(tbl, i = c(4, 7), bg = "yellow", part = "body")
 ```
-
-## Data
-
-```{r}
-bg(tbl, i = 7, bg = "yellow", part = "body")
-```
-
 
 ## Cross-validation
 
 ```{r}
 tbl <- readRDS("assets/2-falls-cpm/tbl-power-by-fold.rds")
 
-tbl
+delete_part(tbl, "footer")
 ```
 
 
 ## Discrimination
 
-![](assets/2-falls-cpm/discrimination-b.png)
+![](assets/2-falls-cpm/discrimination-b.png){fig-align="center"}
 
 ## Discrimination
 
-![](assets/2-falls-cpm/discrimination-a.png)
+![](assets/2-falls-cpm/discrimination-a.png){fig-align="center"}
 
 ## Discrimination
 
-![](assets/2-falls-cpm/discrimination-top-row.png)
+![](assets/2-falls-cpm/discrimination-top-row.png){fig-align="center"}
 
 ## Discrimination
 
-![](assets/2-falls-cpm/fig_discrimination.jpeg)
+![](assets/2-falls-cpm/fig_discrimination.jpeg){fig-align="center"}
 
 
 ## Calibration
 
-![](assets/2-falls-cpm/calibration-b.png)
+![](assets/2-falls-cpm/calibration-1.png){fig-align="center"}
 
 ## Calibration
 
-![](assets/2-falls-cpm/fig_calibration.jpeg){.absolute height="600"}
+![](assets/2-falls-cpm/calibration-2.png){fig-align="center"}
 
 ## Summary
 
@@ -88,6 +86,10 @@ tbl
 - Calibration not ideal, suggesting the model may be better at providing recommendations than estimated risk of falls
 - First use of time-to-event model in inpatient falls prediction with time-varying covariates
 - One of the largest datasets and first use of internal-external cross-validation
+
+:::{.incremental}
+- Hopefully clinically useful
+:::
 
 ##
 
