@@ -6,11 +6,10 @@
 
 
 ##
-
 ![](assets/1-lit-review/bmj-open.png){.absolute height="200" top="0"}
-
+---
+![](assets/1-lit-review/bmj-open.png){.absolute height="200" top="0"}
 ![](assets/1-lit-review/gerontology.png){.absolute height="400" bottom="0"}
-
 
 ## Objectives
 
@@ -19,26 +18,26 @@ Summarise existing data and methods used to develop inpatient falls prediction m
   - Sources of data
   - Model development algorithms
   - Evaluation methods
-  - Reporting quality
+  - Reporting quality (TRIPOD)
 
 ## Included studies
 
 ![](assets/1-lit-review/fig-1.png){fig-align="center" height="600"}
 
-## The typical study
+## The typical included study
 
 Data:
 
 ::: {.incremental}
 
 - Available at admission
-- Collected via survey/questionnaire
+- Collected via questionnaires
 - Variables included previous falls, age, sex, mental state, or physical function assessments
 - Case-control sampling to balance fallers and non-fallers
 
 :::
 
-## The typical study
+## The typical included study
 
 Modelling:
 
@@ -49,25 +48,25 @@ Modelling:
 
 :::
 
-## The typical study
+## The typical included study
 
 ::: {.incremental}
 
-Validation methods:
+Validation methods (selection of validation datasets):
 
 - Bad
 
-Reporting: 
+Reporting (TRIPOD): 
 
 - Worse
 
 :::
 
-## Sample sizes
+## Data sampling
 
-![](assets/1-lit-review/fig-2-sample-sizes.jpeg){fig-align="center" height="450"}
+![](assets/1-lit-review/fig-2-data-balance.jpeg){fig-align="center" height="450"}
 
-## Reporting
+## Reporting - Adherence to TRIPOD
 
 ![](assets/1-lit-review/fig-3-tripod.jpeg){fig-align="center" height="450"}
 
@@ -85,6 +84,6 @@ Reporting:
 
 ## Gaps
 
-- Almost no use of time-to-event models to estimate falls risk
-- Almost no models updated throughout admission or whenever new data is available
-- Relatively few studies relied solely on routine, electronic data
+- Models that better consider time to event
+- Updating predictions when data is available
+- Rely solely on routinely collected electronic data

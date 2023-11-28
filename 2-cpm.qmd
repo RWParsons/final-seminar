@@ -13,9 +13,9 @@
 ::: {.incremental}
 - Time-to-event (Cox regression) model with updates throughout admission
 - Routine Electronic Medical Records data only
-- Good model assessment methods
-- Good reporting
-- Predictions through to first 14 days of admission
+- Robust validation methods (internal-external cross validation)
+- Reported to TRIPOD guidelines
+- Data for the first 14 days of admissions
 :::
 
 ## Advantages of Cox model
@@ -23,13 +23,24 @@
 - Risk estimate is not influenced by anticipated length of stay
 - Updating predictions as data is available
 
+## Data sources
+
+Metro South Health
+
+- 5 Hospitals
+  - Capabilities
+  - Patient demographics
+- 1.1m inpatient admissions (all ages; 2018-2021)
+- 6000 falls (Riskman)
+
 ## Data
 
 ```{r}
 library(tidyverse)
 library(flextable)
-tbl <- readRDS("assets/2-falls-cpm/tbl-summary.rds")
 
+# adjusted this table from falls-cpm repo to only keep demographics
+tbl <- readRDS("assets/2-falls-cpm/tbl-summary.rds") 
 tbl
 ```
 
@@ -46,6 +57,15 @@ bg(tbl, i = 1, j = 2:8, bg = "yellow", part = "body")
 bg(tbl, i = c(4, 7), bg = "yellow", part = "body")
 ```
 
+## Cox model
+
+Predictors:
+
+- Patient demographics
+- Admission details (admission source and medical service)
+- Time since admission
+- Number of previous falls
+
 ## Cross-validation
 
 ```{r}
@@ -53,11 +73,6 @@ tbl <- readRDS("assets/2-falls-cpm/tbl-power-by-fold.rds")
 
 delete_part(tbl, "footer")
 ```
-
-
-## Discrimination
-
-![](assets/2-falls-cpm/discrimination-b.png){fig-align="center"}
 
 ## Discrimination
 
@@ -74,23 +89,63 @@ delete_part(tbl, "footer")
 
 ## Calibration
 
-![](assets/2-falls-cpm/calibration-1.png){fig-align="center"}
+![](assets/2-falls-cpm/calibration-1.jpeg){fig-align="center"}
 
 ## Calibration
 
-![](assets/2-falls-cpm/calibration-2.png){fig-align="center"}
+![](assets/2-falls-cpm/calibration-2.jpeg){fig-align="center"}
 
 ## Summary
 
-- Highly discriminant inpatient falls prediction model
-- Calibration not ideal, suggesting the model may be better at providing recommendations than estimated risk of falls
-- First use of time-to-event model in inpatient falls prediction with time-varying covariates
-- One of the largest datasets and first use of internal-external cross-validation
-
 :::{.incremental}
-- Hopefully clinically useful
+- Highly discriminant inpatient falls prediction model
+- Calibration not ideal (recommendations > risk estimates?)
+- First use of Cox model with time-varying covariates for inpatient falls prediction
+- Large dataset from 5 hospitals used for internal-external cross validation
+- Model relies on routinely collected data in EMR
+
+- *Hopefully* clinically useful
 :::
 
 ##
 
 ![](assets/2-falls-cpm/hopefully.PNG){fig-align="center" height="600"}
+
+## The gap remains!
+
+:::columns
+::: {.column width="40%"}
+![](assets/common/cdss-diagram.png){.absolute height="600"}
+:::
+::: {.column width="60%"}
+
+- **IN:** Patient data 
+- **OUT:** Alert/decision/information
+
+- Usefulness relies on:
+  - Clinical context
+  - Decision being guided
+  - Model performance
+
+:::
+:::
+
+## The gap remains!
+
+:::columns
+::: {.column width="40%"}
+![](assets/common/cdss-diagram-reco.png){.absolute height="600"}
+:::
+::: {.column width="60%"}
+
+- **IN:** Patient data 
+- **OUT:** Alert/decision/information
+
+- Usefulness relies on:
+  - Clinical context
+  - Decision being guided
+  - Model performance
+
+:::
+:::
+

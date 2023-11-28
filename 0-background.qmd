@@ -12,16 +12,20 @@
 ## Why falls?
 
 :::{.incremental}
-
 - Falls are bad
-  - length of stay increased by 8 days
-  - 1 in 3 fallers injured
+  - length of stay increased by 8 days^1^
+  - 1 in 3 fallers injured^2^
 
 - Falls have a huge economic burden
-  - most prevalent adverse event in hospitals (3.6%)
-  - $6700 in additional healthcare costs
-
+  - most prevalent adverse event in hospitals (3.6%)^1^
+  - $6700 in additional healthcare costs^1^
 :::
+
+::: footer
+^1^ Morello (2015)<br>
+^2^ Oliver (2004)
+:::
+
 
 # Why should we predict them??
 
@@ -45,11 +49,23 @@
 
 ![](assets/0-background/continuum-3.png){.absolute right="50" top="150"}
 
-## Why predict them?
+## Falls prevention
+
+- Few with evidence of effectiveness
+  - Falls education^1^
+  - Multifactorial prevention strategies^2^
+
+::: footer
+^1^Haines (2011)<br>
+^2^Cameron (2018)
+:::
+
+
+## Why should we predict them?
 
 ![](assets/0-background/resource-constrained.gif){fig-align="center"}
 
-## Why predict them?
+## Why should we predict them?
 
 ![](assets/0-background/hospital-bed.jpg){fig-align="center"}
 
@@ -59,24 +75,36 @@
 ::: {.column width="40%"}
 ![](assets/0-background/cdss-diagram.png){.absolute height="600"}
 :::
-
 ::: {.column width="60%"}
+:::{.incremental}
 
 - **IN:** Patient data 
 - **OUT:** Alert/decision/information
 
+- Usefulness relies on:
+  - Clinical context
+  - Decision being guided
+  - Model performance
+
+:::
 :::
 :::
 
+## Problematic prediction models
+
+![](assets/0-background/leaky-pipe.png)
 
 ## This PhD
 
-### Aims/Studies
-
 :::{.incremental}
+
+**How can be make a good prediction model for inpatient falls?**
 
 1. Review existing clinical prediction models for inpatient falls
 2. Develop a prediction model for inpatient falls
+
+**How can we better align prediction models with objectives of the users?**
+
 3. Develop a cutpoint selection method to align CDSS with value-based care
 4. Develop software to determine when/where prediction models are most worthwhile
 
