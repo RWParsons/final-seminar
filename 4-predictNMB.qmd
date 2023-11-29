@@ -9,57 +9,62 @@
 
 ![](assets/4-predictNMB/ropensci-page.png){.absolute height="300"}
 
-![](assets/4-predictNMB/joss.png){.absolute height="300" bottom="0"}
-
+![](assets/4-predictNMB/joss.png){.absolute height="250" bottom="0"}
 
 ## What is a CDSS
 
+:::columns
+::: {.column width="40%"}
 ![](assets/4-predictNMB/cdss-diagram.png){.absolute height="600"}
+:::
+::: {.column width="60%"}
+:::{.incremental}
 
-## Why we should we evaluate in terms of costs {.smaller}
+- **IN:** Patient data 
+- **OUT:** Alert/decision/information
 
+- Usefulness relies on:
+  - Clinical context
+  - Decision being guided
+  - Model performance
+
+:::
+:::
+:::
+
+## Why we should we evaluate in terms of costs 
 
 ![](assets/4-predictNMB/continuum-3.png){.absolute right="50" top="150"}
 
 
-## Why we should use `{predictNMB}` {.smaller}
+## Why we should use `{predictNMB}`
 
 -   User provides inputs for setting & intervention (w/ uncertainty)
 -   Simulates & evaluates clinical prediction models within CDSS
--   Estimates patient benefit and healthcare costs
+-   Estimates NMB, patient benefit and healthcare costs
 
 
 # DEMO
 
-##
 
-```{r}
-#| echo: true
-# install.packages("predictNMB")
-library(predictNMB)
-library(parallel)
-```
-
-
-## Example problem and inputs required {.smaller}
+## Example simulation inputs
 
 ::: {style="font-size: 70%;"}
-
-- Falls leads to about 0.04 lost Quality-Adjusted Life Years (QALYs)
-  (Latimer et al. 2013) and has an approximate beta distribution of:
+- **Quality-Adjusted Life Years (QALYs) lost due to falls ~ 0.04** 
+  (Latimer et al. 2013) and has an approximate distribution of:
   $$\mathrm{B}(\alpha = 2.95, \beta = 32.25)$$  
 
-- There are also additional healthcare costs of about \$6669 (Morello et
-  al. 2015) and follows an approximate gamma distribution of:
+- **Additional healthcare costs ~ \$6700** (Morello et
+  al. 2015) and follows an approximate distribution of:
   $$\Gamma (\alpha = 22.05, \beta = 0.0033) $$
 
-- Fall prevention education…
-
-  - has a fixed, known cost of \$77.3 per patient (Hill et al. 2015)
-  - reduces probability of fall by 45% (Haines et al. 2011) - the log
-    hazard ratio follows an approximate normal distribution of:
+- *Falls prevention intervention*
+  - **Costs = \$77.3**(Hill et al. 2015)
+  - **Reduces falls by ~ 45%** (Haines et al. 2011) and the log
+    hazard ratio follows an approximate distribution of:
     $$\mathcal{N}(\mu = -0.844, \sigma = 0.304) $$
-    
+
+- Willingness to pay = $28033
 :::
 
 ## Example problem and inputs required {.smaller}
@@ -91,9 +96,13 @@ described in (Parsons et al. 2023).
 - At what AUC should we think our model is worth implementing?
 
 
-## Making our samplers {.smaller}
+## Demo - Applying inputs
 
 ```{r}
+library(tidyverse)
+library(predictNMB)
+library(parallel)
+
 #| echo: true
 validation_sampler <- get_nmb_sampler(
   outcome_cost = function()  rgamma(1, shape = 22.05, rate = 0.0033),
@@ -120,7 +129,7 @@ training_sampler <- get_nmb_sampler(
 ```
 
 
-## Primary analyses
+## Demo - AUC {.smaller}
 
 ### Running our simulation (primary use-case)
 
@@ -151,7 +160,7 @@ if(!"screen-sim-1.rds" %in% list.files("assets/4-predictNMB/data")) {
     event_rate = 0.03,
     fx_nmb_training = training_sampler,
     fx_nmb_evaluation = validation_sampler,
-    cutpoint_methods = c("all", "none", "youden", "value_optimising"),
+    cutpoint_methods = c("all", "none", "youden"),
     show_progress = TRUE,
     cl = cl
   )
@@ -161,7 +170,8 @@ if(!"screen-sim-1.rds" %in% list.files("assets/4-predictNMB/data")) {
   screen_auc <- readRDS(file.path("assets/4-predictNMB/data", "screen-sim-1.rds"))
 }
 ```
-## Screen AUCs
+
+## Demo - AUC {.smaller}
 
 ```{r}
 #| echo: true
@@ -170,7 +180,7 @@ autoplot(screen_auc, dodge_width = 0.02, plot_range = F)
 ```
 
 
-## Screen event rate
+## Demo - Event rate {.smaller}
 
 ```{r}
 if(!"screen-sim-2.rds" %in% list.files("assets/4-predictNMB/data")) {
@@ -183,12 +193,12 @@ if(!"screen-sim-2.rds" %in% list.files("assets/4-predictNMB/data")) {
     event_rate = c(0.01, 0.03, 0.05, 0.1, 0.2),
     fx_nmb_training = training_sampler,
     fx_nmb_evaluation = validation_sampler,
-    cutpoint_methods = c("all", "none", "youden", "value_optimising"),
+    cutpoint_methods = c("all", "none", "youden"),
     show_progress = TRUE,
     cl = cl
   )
   
-  saveRDS(screen_auc, file.path("assets/4-predictNMB/data", "screen-sim-2.rds"))
+  saveRDS(screen_event_rate, file.path("assets/4-predictNMB/data", "screen-sim-2.rds"))
 } else {
   screen_event_rate <- readRDS(file.path("assets/4-predictNMB/data", "screen-sim-2.rds"))
 }
@@ -200,9 +210,30 @@ if(!"screen-sim-2.rds" %in% list.files("assets/4-predictNMB/data")) {
 #| fig-align: center
 
 # AUC = 0.8
-autoplot(screen_event_rate, dodge_width = 0.01, plot_range = F)
+autoplot(screen_event_rate, dodge_width = 0.01, plot_range = F) +
+  scale_x_continuous(trans = "log", breaks = c(0.01, 0.03, 0.05, 0.1, 0.2))
 ```
-## Create cost-effectiveness plot
+
+## Demo - Event rate {.smaller}
+
+```{r}
+#| layout-ncol: 2
+library(flextable)
+make_table <- function(x) {
+  d <- summary(x) |> arrange(desc(median))
+  names(d) <- c(" ", "NMB (Median)", "NMB (95% Interval)")
+  tbl <- flextable(d)
+  
+  header_text <- glue::glue("Event rate: {x$meta_data$event_rate}")
+  
+  add_header_lines(tbl, values = header_text) |> autofit()
+}
+
+screen_event_rate$simulations[[1]] |> make_table()
+screen_event_rate$simulations[[5]] |> make_table()
+```
+
+## Demo - Cost-effectiveness plots
 
 ```{r}
 #| echo: true
@@ -216,6 +247,16 @@ ce_plot(
 ```
 ## Summary
 
-- New software that can be used to evaluate a hypothetical prediction model
-- May be used to guide research efforts towards models which are most likely to be clinically useful
+- Software that can be used to evaluate a hypothetical prediction models in relevant terms
+- May be used to guide research and implementation efforts towards CDSS that are more likely to be clinically useful
 
+##
+
+![](assets/4-predictNMB/rmed23.PNG){.absolute left="0" height="300"}
+![](assets/4-predictNMB/arizona.png){.absolute right="0" height="300"}
+
+##
+
+![](assets/4-predictNMB/venables-award.PNG){fig-align="center" height="300"}
+
+![](assets/4-predictNMB/ardc.PNG){fig-align="center" height="300"}

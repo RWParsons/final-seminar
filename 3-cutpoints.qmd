@@ -10,14 +10,6 @@
 ![](assets/3-cutpoints/jamia.PNG){fig-align="center" height="350"}
 
 
-##
-
-![](assets/3-cutpoints/p-given-data.png){fig-align="center" height="350"}
-
-## 
-
-![](assets/common/cdss-diagram.png){.absolute height="600"}
-
 ## 
 
 ![](assets/3-cutpoints/cdss-diagram-reco.png){.absolute height="600"}
@@ -36,6 +28,9 @@ How to inform the user?
 :::
 :::
 
+##
+
+![](assets/3-cutpoints/p-given-data.png){fig-align="center" height="350"}
 
 ## What is a cutpoint?
 
@@ -53,7 +48,7 @@ How to inform the user?
 
 ![](assets/3-cutpoints/sand-3.png){fig-align="center" height="400"}
 
-# [DEMO](https://aushsi.shinyapps.io/cost-effective-cpms-app/)
+<!-- # [DEMO](https://aushsi.shinyapps.io/cost-effective-cpms-app/) -->
 
 ## Cutpoint selection methods
 
@@ -67,10 +62,10 @@ All maximise a performance based metric (not outcome)^1^
 
 - The Closest to (0, 1) Criteria
 
+:::{.incremental}
 - Cost-minimising
-
-
-*Only the "Cost-minimising" considers anything beyond the model itself (costs, patient outcomes, interventions)*
+  - *Only one to consider anything beyond the model itself (costs, patient outcomes, interventions)*
+:::
 
 ::: footer
 ^1^ Unal (2017)
@@ -78,10 +73,9 @@ All maximise a performance based metric (not outcome)^1^
 
 ## Objectives
 
-
 - Integrate information of patient outcomes and treatment costs into cutpoint selection
 
->- Evaluate how it compares to other cutpoint selection methods using a simulation study
+>- Evaluate how it compares to other cutpoint selection methods in health economic terms
 
 
 ## Cost-effective cutpoint
@@ -104,14 +98,11 @@ data.frame(
 ```
 :::
 
-## Cost-effective cutpoint
+## Proposed "value-optimising" cutpoint method
 
-Applied a custom metric and `{cutpointr}` to maximise NMB: 
+New custom method using `{cutpointr}` to maximise Net Monetary Benefit (NMB): 
 
-$$
-\small
-CE(c) = n_{TP} \times NMB_{TP} + n_{FP} \times NMB_{FP} \\ + n_{TN} \times NMB_{TN} + n_{FN} \times NMB_{FN}
-$$
+$$NMB ($) = \text{resources} + \text{(monetised) health benefits}$$
 
 ::: custom-xsmall
 
@@ -119,12 +110,12 @@ $$
 data.frame(
   row.names = c("Actually Positive", "Actually Negative"),
   P_Positive = c(
-    "$NMB_{TP} = COST_{outcome}\\times(1-EFFECT_{treatment}) + COST_{treatment}$", 
-    "$NMB_{FP} = COST_{treatment}$"
+    "$NMB_{TP}$", 
+    "$NMB_{FP}$"
   ), 
   P_Negative = c(
-    "$NMB_{FN} = COST_{outcome}$",
-    "$NMB_{TN} = 0$"
+    "$NMB_{FN}$",
+    "$NMB_{TN}$"
   )
 ) |>
   rename("Predicted Positive" = P_Positive,
@@ -153,25 +144,24 @@ data.frame(
 :::
 
 
-## Simulation
+## Simulation study inputs
 
 ::: {style="font-size: 70%;"}
-
-- Falls leads to about 0.04 lost Quality-Adjusted Life Years (QALYs)
-  (Latimer et al. 2013) and has an approximate beta distribution of:
+- **Quality-Adjusted Life Years (QALYs) lost due to falls ~ 0.04** 
+  (Latimer et al. 2013) and has an approximate distribution of:
   $$\mathrm{B}(\alpha = 2.95, \beta = 32.25)$$  
 
-- There are also additional healthcare costs of about \$6669 (Morello et
-  al. 2015) and follows an approximate gamma distribution of:
+- **Additional healthcare costs ~ \$6700** (Morello et
+  al. 2015) and follows an approximate distribution of:
   $$\Gamma (\alpha = 22.05, \beta = 0.0033) $$
 
-- Fall prevention education…
-
-  - has a fixed, known cost of \$77.3 per patient (Hill et al. 2015)
-  - reduces probability of fall by 45% (Haines et al. 2011) - the log
-    hazard ratio follows an approximate normal distribution of:
+- *Falls prevention intervention*
+  - **Costs = \$77.3**(Hill et al. 2015)
+  - **Reduces falls by ~ 45%** (Haines et al. 2011) and the log
+    hazard ratio follows an approximate distribution of:
     $$\mathcal{N}(\mu = -0.844, \sigma = 0.304) $$
-    
+
+- Willingness to pay = $28033
 :::
 
 ## Evaluation
@@ -181,47 +171,35 @@ data.frame(
 
 ... repeat
 
-## Results
+## Results - NMB
 
 ![](assets/3-cutpoints/figure-1-primary_results.jpeg){fig-align="center" height="600"}
 
-## Results
-
-![](assets/3-cutpoints/figure-2-example-cutpoint-figure.jpeg){fig-align="center" height="400"}
-
-## Results 
+## Results - robust to poor calibration
 
 ![](assets/3-cutpoints/figure-3-calibration-plots.jpeg){fig-align="center" height="600"}
 
+
+## Results - Example and app
+
+![](assets/3-cutpoints/figure-2-example-cutpoint-figure.jpeg){fig-align="center" height="400"}
+
+## Results - Example and app
+
+![](assets/3-cutpoints/app-demo.png){fig-align="center" height="600"}
 
 ## Summary
 
 - Proposed value-optimising cutpoint can incorporate clinical context to select cutpoint that maximises the Net Monetary Benefit
 - Implications for wider range of decision support systems
-- Similar to cost-minimising
-- Robust to poor model calibration
-
-
-## More results
-
-:::columns
-::: {.column width="40%"}
-![](assets/3-cutpoints/figure-s2-falls_simulations_inb.jpeg){height="400"}
-:::
-
-::: {.column width="60%"}
-
-:::
-:::
+- Similar to cost-minimising but robust to poor model calibration
+- Presented visually as a Shiny app for visualising differences between methods
 
 ## More results
 
-:::columns
-::: {.column width="40%"}
-![](assets/3-cutpoints/figure-s2-falls_simulations_inb.jpeg){height="400"}
-:::
+![](assets/3-cutpoints/figure-s2-falls_simulations_inb.jpeg){.absolute left="0" height="350"}
 
-::: {.column width="60%"}
-![](assets/3-cutpoints/thinking.gif){height="400"}
-:::
-:::
+## More results
+
+![](assets/3-cutpoints/figure-s2-falls_simulations_inb.jpeg){.absolute left="0" height="350"}
+![](assets/3-cutpoints/thinking-2.gif){.absolute right="0" height="350"}
