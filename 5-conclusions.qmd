@@ -7,7 +7,7 @@
 ## Significance
 
 ::: {.incremental}
-**Falls prediction**
+**Inpatient falls prediction**
 
 1. Review existing clinical prediction models for inpatient falls
 2. Developed one of the most performant prediction model for falls, using robust methods

@@ -27,7 +27,7 @@
 :::
 
 
-# Why should we predict them??
+# Why should we predict them?
 
 
 ## Why should we predict them?
@@ -98,7 +98,7 @@
 
 :::{.incremental}
 
-**How can be make a good prediction model for inpatient falls?**
+**How can we make a good prediction model for inpatient falls?**
 
 1. Review existing clinical prediction models for inpatient falls
 2. Develop a prediction model for inpatient falls

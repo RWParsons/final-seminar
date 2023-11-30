@@ -63,16 +63,37 @@ Predictors:
 
 - Patient demographics
 - Admission details (admission source and medical service)
-- Time since admission
-- Number of previous falls
+- Time since admission (time-varying)
+- Number of previous falls (time-varying)
 
-## Cross-validation
+## Cross validation
 
 ```{r}
-tbl <- readRDS("assets/2-falls-cpm/tbl-power-by-fold.rds")
-
-delete_part(tbl, "footer")
+tbl <- readRDS("assets/2-falls-cpm/tbl-power-by-fold.rds") |> 
+  delete_part("footer") |> 
+  set_header_labels("Model" = "Model")
+tbl
 ```
+
+## Cross validation
+
+```{r}
+bg(tbl, i = 1, bg = "yellow", part = "body")
+```
+
+## Cross validation
+
+```{r}
+bg(tbl, i = 2, bg = "yellow", part = "body")
+```
+
+
+## Cross validation
+
+```{r}
+bg(tbl, i = 6, bg = "yellow", part = "body")
+```
+
 
 ## Discrimination
 
@@ -104,7 +125,7 @@ delete_part(tbl, "footer")
 - Large dataset from 5 hospitals used for internal-external cross validation
 - Model relies on routinely collected data in EMR
 
-- *Hopefully* clinically useful
+- [*Hopefully*]{.underline} clinically useful
 :::
 
 ##

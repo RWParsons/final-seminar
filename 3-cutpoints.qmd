@@ -166,7 +166,7 @@ data.frame(
 
 ## Evaluation
 
-- Simulate datasets and fitting of model
+- Simulate datasets and fitting of prediction model
 - Evaluate model decisions using each cutpoint method in terms of NMB 
 
 ... repeat
